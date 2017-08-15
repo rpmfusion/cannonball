@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Cannonball
+Comment=An Enhanced OutRun Engine
+Exec=cannonball
+Icon=cannonball
+Terminal=false
+Type=Application
+Categories=Game;Emulator;
+

@@ -1,0 +1,4 @@
+You need the 'Out Run (Rev B)' Rom set data files. Put them under 
+'~/.cannonball/roms'. The launcher script will also place a config
+file there, if not already existing.
+
