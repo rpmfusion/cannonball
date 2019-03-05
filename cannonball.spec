@@ -21,6 +21,7 @@ Patch0:         %{name}-0.3-fixes.patch
 
 BuildRequires:  SDL-devel
 BuildRequires:  cmake
+BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
 BuildRequires:  desktop-file-utils
 Requires:       hicolor-icon-theme
