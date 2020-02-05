@@ -1,6 +1,6 @@
 Name:           cannonball
 Version:        0.3
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -115,6 +115,9 @@ fi
 
 
 %changelog
+* Wed Feb 05 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.3-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Sat Aug 10 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.3-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
