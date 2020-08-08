@@ -1,6 +1,9 @@
+# force out-of-tree build for spec compatibility with older releases
+%undefine __cmake_in_source_build
+
 Name:           cannonball
 Version:        0.3
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -45,6 +48,9 @@ Yu Suzuki's seminal arcade racer, OutRun, on a variety of systems:
 %prep
 %autosetup -p1
 
+# Fix path in CMakeLists.txt
+sed -i 's!set(CMDIR ../cmake)!set(CMDIR ./cmake)!' cmake/CMakeLists.txt
+
 # Do not link SDLmail
 sed -i '/SDLmain/d' cmake/debian.cmake
 
@@ -54,12 +60,10 @@ sed -i 's!${lib_base}/boost_1_54_0!${lib_base}/boost!' \
 
 
 %build
-mkdir build
-cd build
-%cmake ../cmake \
+%cmake ./cmake \
   -DTARGET=debian \
   -DCMAKE_SKIP_BUILD_RPATH=TRUE
-%make_build
+%cmake_build
 
 
 %install
@@ -67,11 +71,11 @@ cd build
 mkdir -p  %{buildroot}%{_bindir}
 install -p -m 755 %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 mkdir -p %{buildroot}%{_libexecdir}/%{name}
-install -p -m 755 build/%{name} %{buildroot}%{_libexecdir}/%{name}
+install -p -m 755 %{_vpath_builddir}/%{name} %{buildroot}%{_libexecdir}/%{name}
 
 # Install config
 mkdir -p %{buildroot}%{_datadir}/%{name}
-install -p -m 644 build/config.xml %{buildroot}%{_datadir}/%{name}/config.xml
+install -p -m 644 %{_vpath_builddir}/config.xml %{buildroot}%{_datadir}/%{name}/config.xml
 
 # Install Fedora README
 install -p -m 644 %{SOURCE2} README.Fedora
@@ -88,21 +92,6 @@ install -p -m 644 %{SOURCE3} \
   %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
 
 
-%post
-/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-
-%postun
-if [ $1 -eq 0 ] ; then
-    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-
-%posttrans
-/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
-
 %files
 %{_bindir}/%{name}
 %{_libexecdir}/%{name}
@@ -115,6 +104,10 @@ fi
 
 
 %changelog
+* Thu Aug 06 2020 Andrea Musuruane <musuruan@gmail.com> - 0.3-10
+- Fixed FTBFS for F33
+- Removed desktop scriptlets
+
 * Wed Feb 05 2020 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.3-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
