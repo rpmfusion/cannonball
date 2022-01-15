@@ -2,27 +2,20 @@
 %undefine __cmake_in_source_build
 
 Name:           cannonball
-Version:        0.3
-Release:        13%{?dist}
+Version:        0.34
+Release:        1%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
 URL:            https://github.com/djyt/cannonball/wiki
-Source0:        https://github.com/djyt/%{name}/archive/v0.3/%{name}-%{version}.tar.gz
+Source0:        https://github.com/djyt/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 # Launcher and README adapted from AUR package
 # https://aur.archlinux.org/packages/cannonball/
 Source1:        %{name}.sh
 Source2:        %{name}_README.Fedora
-# Cannonball icon by Joseph Wharton
-# http://joeystitch.deviantart.com/art/Outrun-Icon-256x256-435538436
-Source3:        %{name}.png
 Source4:        %{name}.desktop
-# Adapt XML Writer to new boost api
-# Add missing include
-# https://github.com/djyt/cannonball/pull/14
-Patch0:         %{name}-0.3-fixes.patch
 
-BuildRequires:  SDL-devel
+BuildRequires:  SDL2-devel
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
@@ -30,7 +23,7 @@ BuildRequires:  desktop-file-utils
 Requires:       hicolor-icon-theme
 
 %description
-Cannonball is a program which allows you to play an enhanced version of 
+Cannonball is a program which allows you to play an enhanced version of
 Yu Suzuki's seminal arcade racer, OutRun, on a variety of systems:
 - 60 fps gameplay (smoother than the original game)
 - True widescreen mode (extend the play area by 25%)
@@ -48,20 +41,10 @@ Yu Suzuki's seminal arcade racer, OutRun, on a variety of systems:
 %prep
 %autosetup -p1
 
-# Fix path in CMakeLists.txt
-sed -i 's!set(CMDIR ../cmake)!set(CMDIR ./cmake)!' cmake/CMakeLists.txt
-
-# Do not link SDLmail
-sed -i '/SDLmain/d' cmake/debian.cmake
-
-# Fix boost path
-sed -i 's!${lib_base}/boost_1_54_0!${lib_base}/boost!' \
-  cmake/CMakeLists.txt
-
 
 %build
 %cmake ./cmake \
-  -DTARGET=debian \
+  -DTARGET=linux.cmake -DOpenGL_GL_PREFERENCE=GLVND \
   -DCMAKE_SKIP_BUILD_RPATH=TRUE
 %cmake_build
 
@@ -87,9 +70,15 @@ desktop-file-install \
   %{SOURCE4}
 
 # Install icon
-mkdir -p %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
-install -p -m 644 %{SOURCE3} \
-  %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
+install -Dm644 res/icon.png %{buildroot}/usr/share/icons/hicolor/256x256/apps/%name.png
+
+# widescreen tilemap data
+install -d %{buildroot}/usr/share/%{name}/res
+install -m644 res/*.bin %{buildroot}/usr/share/%name/res
+install -m644 res/gamecontrollerdb.txt %{buildroot}/usr/share/%name/res
+
+# configuration file
+install -Dm644 %{_vpath_builddir}/config.xml %{buildroot}/usr/share/%name/config.xml
 
 
 %files
@@ -104,6 +93,9 @@ install -p -m 644 %{SOURCE3} \
 
 
 %changelog
+* Fri Jan 14 2022 Sérgio Basto <sergio@serjux.com> - 0.34-1
+- Update to 0.34, switch to SDL2
+
 * Wed Aug 04 2021 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 0.3-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
