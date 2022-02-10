@@ -3,7 +3,7 @@
 
 Name:           cannonball
 Version:        0.34
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -93,6 +93,9 @@ install -Dm644 %{_vpath_builddir}/config.xml %{buildroot}/usr/share/%name/config
 
 
 %changelog
+* Thu Feb 10 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Fri Jan 14 2022 Sérgio Basto <sergio@serjux.com> - 0.34-1
 - Update to 0.34, switch to SDL2
 
