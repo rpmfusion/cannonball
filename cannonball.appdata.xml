@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop">
+    <id>cannonball.desktop</id>
+    <name>Cannonball</name>
+    <project_license>MAME</project_license>
+    <metadata_license>CC-BY-3.0</metadata_license>
+    <summary>An Enhanced OutRun Engine</summary>
+    <description>
+    <p>
+    Cannonball is a program which allows you to play an enhanced version of
+    Yu Suzuki's seminal arcade racer, OutRun, on a variety of systems:
+    <ul>
+    <li>60 fps gameplay (smoother than the original game)</li>
+    <li>True widescreen mode (extend the play area by 25%)</li>
+    <li>High Resolution mode (improves sprite scaling)</li>
+    <li>Time Trial Mode</li>
+    <li>Cheats</li>
+    <li>Customisable Music</li>
+    <li>High Score Saving</li>
+    <li>Western, Japanese &amp; prototype track support</li>
+    <li>Analog &amp; Digital controllers supported</li>
+    <li>Force Feedback / Haptic support (Windows only)</li>
+    <li>Fixes bugs present in the original game</li>
+    </ul>
+    </p>
+    </description>
+    <url type="homepage">https://github.com/djyt/cannonball/wiki</url>
+    <screenshots>
+        <screenshot type="default">
+            <image>https://camo.githubusercontent.com/bdb8e932ae185eebe58e1a567d8c8e1dc6e7dbf80f20b210ceab41a9bd27d47e/687474703a2f2f342e62702e626c6f6773706f742e636f6d2f2d48415a73747779316e53302f55726d79597a486e3837492f41414141414141414130552f41313461517a357842784d2f73313630302f76696577312e706e67</image>
+        </screenshot>
+    </screenshots>
+</component>
+

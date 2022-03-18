@@ -1,9 +1,6 @@
-# force out-of-tree build for spec compatibility with older releases
-%undefine __cmake_in_source_build
-
 Name:           cannonball
 Version:        0.34
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -13,12 +10,14 @@ Source0:        https://github.com/djyt/%{name}/archive/v%{version}/%{name}-%{ve
 # https://aur.archlinux.org/packages/cannonball/
 Source1:        %{name}.sh
 Source2:        %{name}_README.Fedora
-Source4:        %{name}.desktop
+Source3:        %{name}.desktop
+Source4:        %{name}.appdata.xml
 
 BuildRequires:  SDL2-devel
 BuildRequires:  cmake
 BuildRequires:  gcc-c++
 BuildRequires:  boost-devel
+BuildRequires:  libappstream-glib
 BuildRequires:  desktop-file-utils
 Requires:       hicolor-icon-theme
 
@@ -43,7 +42,7 @@ Yu Suzuki's seminal arcade racer, OutRun, on a variety of systems:
 
 
 %build
-%cmake ./cmake \
+%cmake -S ./cmake \
   -DTARGET=linux.cmake -DOpenGL_GL_PREFERENCE=GLVND \
   -DCMAKE_SKIP_BUILD_RPATH=TRUE
 %cmake_build
@@ -56,9 +55,19 @@ install -p -m 755 %{SOURCE1} %{buildroot}%{_bindir}/%{name}
 mkdir -p %{buildroot}%{_libexecdir}/%{name}
 install -p -m 755 %{_vpath_builddir}/%{name} %{buildroot}%{_libexecdir}/%{name}
 
+# Install widescreen tilemap data
+mkdir -p %{buildroot}%{_datadir}/%{name}/res
+install -m644 res/*.bin %{buildroot}%{_datadir}/%{name}/res
+install -m644 res/gamecontrollerdb.txt %{buildroot}%{_datadir}/%{name}/res
+
 # Install config
 mkdir -p %{buildroot}%{_datadir}/%{name}
-install -p -m 644 %{_vpath_builddir}/config.xml %{buildroot}%{_datadir}/%{name}/config.xml
+install -p -m 644 %{_vpath_builddir}/config.xml \
+  %{buildroot}%{_datadir}/%{name}/config.xml
+
+# Install man page
+mkdir -p %{buildroot}%{_mandir}/man6/
+install -p -m 644 docs/%{name}.6 %{buildroot}%{_mandir}/man6/
 
 # Install Fedora README
 install -p -m 644 %{SOURCE2} README.Fedora
@@ -67,18 +76,18 @@ install -p -m 644 %{SOURCE2} README.Fedora
 mkdir -p %{buildroot}%{_datadir}/applications
 desktop-file-install \
   --dir %{buildroot}%{_datadir}/applications \
-  %{SOURCE4}
+  %{SOURCE3}
 
 # Install icon
-install -Dm644 res/icon.png %{buildroot}/usr/share/icons/hicolor/256x256/apps/%name.png
+mkdir -p %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/
+install -p -m 644 res/icon.png \
+  %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/%{name}.png
 
-# widescreen tilemap data
-install -d %{buildroot}/usr/share/%{name}/res
-install -m644 res/*.bin %{buildroot}/usr/share/%name/res
-install -m644 res/gamecontrollerdb.txt %{buildroot}/usr/share/%name/res
-
-# configuration file
-install -Dm644 %{_vpath_builddir}/config.xml %{buildroot}/usr/share/%name/config.xml
+# Install AppData file
+mkdir -p %{buildroot}%{_metainfodir}
+install -p -m 644 %{SOURCE4} %{buildroot}%{_metainfodir}
+appstream-util validate-relax --nonet \
+  %{buildroot}%{_metainfodir}/%{name}.appdata.xml
 
 
 %files
@@ -87,12 +96,19 @@ install -Dm644 %{_vpath_builddir}/config.xml %{buildroot}/usr/share/%name/config
 %{_datadir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_mandir}/man6/%{name}.6*
+%{_metainfodir}/%{name}.appdata.xml
 %license docs/license.txt
 %doc roms/roms.txt
 %doc README.Fedora
 
 
 %changelog
+* Thu Mar 17 2022 Andrea Musuruane <musuruan@gmail.com> - 0.34-3
+- Add AppData file (BZ #6196)
+- Install man pange
+- Spec file clean up
+
 * Thu Feb 10 2022 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
