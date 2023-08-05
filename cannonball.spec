@@ -1,6 +1,6 @@
 Name:           cannonball
 Version:        0.34
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -12,6 +12,9 @@ Source1:        %{name}.sh
 Source2:        %{name}_README.Fedora
 Source3:        %{name}.desktop
 Source4:        %{name}.appdata.xml
+# Better handling of 'back' state
+# https://github.com/djyt/cannonball/commit/135a0f3a56eedf13c5fea1d93711141a3c921572
+Patch0:         %{name}-0.34-better_back_state.patch
 
 BuildRequires:  SDL2-devel
 BuildRequires:  cmake
@@ -104,6 +107,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sat Aug 05 2023 Andrea Musuruane <musuruan@gmail.com> - 0.34-6
+- Added a patch to improve handling of 'back' state. Fix FTBFS.
+
 * Thu Aug 03 2023 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_39_Mass_Rebuild
 
