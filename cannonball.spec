@@ -1,6 +1,6 @@
 Name:           cannonball
 Version:        0.34
-Release:        6%{?dist}
+Release:        7%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -107,6 +107,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sun Feb 04 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
+
 * Sat Aug 05 2023 Andrea Musuruane <musuruan@gmail.com> - 0.34-6
 - Added a patch to improve handling of 'back' state. Fix FTBFS.
 
