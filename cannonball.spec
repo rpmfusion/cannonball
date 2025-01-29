@@ -1,6 +1,6 @@
 Name:           cannonball
 Version:        0.34
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -107,6 +107,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Wed Jan 29 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
+
 * Fri Aug 02 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_41_Mass_Rebuild
 
