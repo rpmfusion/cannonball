@@ -1,6 +1,6 @@
 Name:           cannonball
 Version:        0.34
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -15,6 +15,9 @@ Source4:        %{name}.appdata.xml
 # Better handling of 'back' state
 # https://github.com/djyt/cannonball/commit/135a0f3a56eedf13c5fea1d93711141a3c921572
 Patch0:         %{name}-0.34-better_back_state.patch
+# Add cmath include
+# https://github.com/djyt/cannonball/commit/e66fdcd55ec0f5ef61c81b8ac25034734bbdef52
+Patch1:         %{name}-0.34-gcc15.patch
 
 BuildRequires:  SDL2-devel
 BuildRequires:  cmake
@@ -107,6 +110,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Tue Feb 25 2025 Andrea Musuruane <musuruan@gmail.com> - 0.34-10
+- Fix FTBFS with GCC 15
+
 * Wed Jan 29 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_42_Mass_Rebuild
 
