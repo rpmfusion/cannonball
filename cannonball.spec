@@ -1,6 +1,6 @@
 Name:           cannonball
 Version:        0.34
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        An Enhanced OutRun Engine
 
 License:        MAME
@@ -110,6 +110,9 @@ appstream-util validate-relax --nonet \
 
 
 %changelog
+* Sun Jul 27 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 0.34-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
+
 * Tue Feb 25 2025 Andrea Musuruane <musuruan@gmail.com> - 0.34-10
 - Fix FTBFS with GCC 15
 
