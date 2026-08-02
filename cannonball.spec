@@ -50,7 +50,7 @@ Yu Suzuki's seminal arcade racer, OutRun, on a variety of systems:
 %build
 %cmake -S ./cmake \
   -DTARGET=linux.cmake -DOpenGL_GL_PREFERENCE=GLVND \
-  -DCMAKE_SKIP_BUILD_RPATH=TRUE
+  -DCMAKE_SKIP_BUILD_RPATH=TRUE -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 %cmake_build
 
 
